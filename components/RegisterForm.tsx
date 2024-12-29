@@ -25,7 +25,11 @@ import { FormFieldType } from "./CustomFormField";
 import { createUser } from "@/lib/actions/patient.actions";
 
 // Current Component ⚛️
-const PatientForm = () => {
+const RegisterForm = ({
+  user,
+}: {
+  user: User;
+}) => {
   // states and hooks
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -70,8 +74,8 @@ const PatientForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         <section className="mb-12 space-y-4">
-          <h1 className="header">Hi there 👋</h1>
-          <p className="text-dark-700">Schedule your first appointement.</p>
+          <h1 className="header">Welcome 👋</h1>
+          <p className="text-dark-700">Tell us more about yourself.</p>
         </section>
 
         {/* custom form fields comp goes here */}
@@ -85,24 +89,7 @@ const PatientForm = () => {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
-        {/* email */}
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          name="email"
-          label="Email address"
-          placeholder="john_doe@email.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-        />
-        {/* phone number */}
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldType.PHONE_INPUT}
-          name="phone"
-          label="Phone Number"
-          placeholder="(+91) 123-456-7890"
-        />
+
         <SubmitButton isLoading={isLoading}>
           Get started
         </SubmitButton>
@@ -111,4 +98,4 @@ const PatientForm = () => {
   );
 };
 
-export default PatientForm;
+export default RegisterForm;
