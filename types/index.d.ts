@@ -54,3 +54,24 @@ declare type UpdateAppointmentParams = {
   appointment: Appointment;
   type: string;
 };
+
+declare interface CustomFormFieldPropsType {
+  control: Control<any>;
+  name: string;
+  label?: string;
+  placeholder?: string;
+  iconSrc?: string;
+  iconAlt?: string;
+  diabled?: boolean;
+  dateFormat?: string;
+  showTimeSelect?: boolean;
+  children?: React.ReactNode;
+  fieldType: FormFieldType;
+  renderSkeleton?: (field: any) => React.ReactNode;
+}
+
+declare interface ButtonProps {
+  isLoading: boolean;
+  children: React.ReactNode;
+  classnames?: string;
+}
