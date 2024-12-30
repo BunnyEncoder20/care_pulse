@@ -26,7 +26,6 @@ export enum FormFieldType {
   SELECT = "select",
   SKELETON = "skeleton",
 }
-
 import { E164Number } from "libphonenumber-js/core";
 
 // Renderer Function
@@ -37,7 +36,7 @@ const RenderField = ({
   field: any;
   props: CustomFormFieldPropsType;
 }) => {
-  const { fieldType, iconSrc, iconAlt, placeholder } = props;
+  const { fieldType, iconSrc, iconAlt, placeholder, value } = props;
 
   // render the input accounding to fieldType
   switch (fieldType) {
@@ -55,11 +54,12 @@ const RenderField = ({
             />
           )}
 
-          {/* control */}
+          {/* Input field */}
           <FormControl>
             <Input
               placeholder={placeholder}
               {...field}
+              value={value ?? ""}
               className="shad-input border-0"
             />
           </FormControl>
@@ -73,15 +73,14 @@ const RenderField = ({
             placeholder={placeholder}
             international
             withCountryCallingCode
-            value={field.value as E164Number | undefined}
+            value={value as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
           >
           </PhoneInput>
         </FormControl>
       );
-    case FormFieldType.TEXTAREA:
-      return <></>;
+
     default:
       break;
   }

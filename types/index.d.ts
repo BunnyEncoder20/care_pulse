@@ -59,6 +59,7 @@ declare interface CustomFormFieldPropsType {
   control: Control<any>;
   name: string;
   label?: string;
+  value?: string;
   placeholder?: string;
   iconSrc?: string;
   iconAlt?: string;
