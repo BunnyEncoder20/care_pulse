@@ -6,15 +6,18 @@ import Image from "next/image";
 // UI imports
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "./ui/textarea";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Custom Types
 export enum FormFieldType {
@@ -28,7 +31,7 @@ export enum FormFieldType {
 }
 import { E164Number } from "libphonenumber-js/core";
 
-// Renderer Function
+// Input Renderer Function
 const RenderField = ({
   field,
   props,
@@ -36,7 +39,16 @@ const RenderField = ({
   field: any;
   props: CustomFormFieldPropsType;
 }) => {
-  const { fieldType, iconSrc, iconAlt, placeholder, value } = props;
+  const {
+    fieldType,
+    iconSrc,
+    iconAlt,
+    placeholder,
+    value,
+    showTimeSelect,
+    dateFormat,
+    renderSkeleton,
+  } = props;
 
   // render the input accounding to fieldType
   switch (fieldType) {
@@ -73,14 +85,64 @@ const RenderField = ({
             placeholder={placeholder}
             international
             withCountryCallingCode
-            value={value as E164Number | undefined}
+            value={value ?? field.value as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
           >
           </PhoneInput>
         </FormControl>
       );
-
+    case FormFieldType.DATE_PICKER:
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          <Image
+            src="/assets/icons/calendar.svg"
+            height={24}
+            width={24}
+            alt="user"
+            className="ml-2"
+          />
+          <FormControl>
+            <ReactDatePicker
+              selected={field.value}
+              onChange={(date: Date) => field.onChange(date)}
+              timeInputLabel="Time:"
+              dateFormat={dateFormat ?? "MM/dd/yyyy"}
+              showTimeSelect={showTimeSelect ?? false}
+              wrapperClassName="date-picker"
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="shad-select-trigger">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent className="shad-select-content">
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
+    case FormFieldType.TEXTAREA:
+      return (
+        <Textarea
+          placeholder={placeholder}
+          {...field}
+          className="shad-textArea"
+          disabled={props.diabled}
+        >
+        </Textarea>
+      );
+    case FormFieldType.SKELETON:
+      return (
+        renderSkeleton ? renderSkeleton(field) : null
+      );
     default:
       break;
   }

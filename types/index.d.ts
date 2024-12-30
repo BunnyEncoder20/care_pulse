@@ -76,3 +76,8 @@ declare interface ButtonProps {
   children: React.ReactNode;
   classnames?: string;
 }
+
+declare type FileUploaderProps = {
+  files: File[] | undefined;
+  onChange: (files: File[]) => void;
+};
