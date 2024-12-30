@@ -27,7 +27,7 @@ export default function Home() {
 
           {/* copywright */}
           <div className="txt-14-regular mt-20 flex justify-between">
-            <p className="justify-items-end text-dark-600 xl:text-left">
+            <p className="coprright justify-items-end text-dark-600 xl:text-left">
               &copy; 2024 Care Pulse
             </p>
             <Link href="/?admin=true" className="text-green-500 cursor-pointer">

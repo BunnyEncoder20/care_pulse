@@ -30,6 +30,7 @@ export enum FormFieldType {
   SKELETON = "skeleton",
 }
 import { E164Number } from "libphonenumber-js/core";
+import { Checkbox } from "./ui/checkbox";
 
 // Input Renderer Function
 const RenderField = ({
@@ -48,6 +49,9 @@ const RenderField = ({
     showTimeSelect,
     dateFormat,
     renderSkeleton,
+    diabled,
+    name,
+    label,
   } = props;
 
   // render the input accounding to fieldType
@@ -135,9 +139,22 @@ const RenderField = ({
           placeholder={placeholder}
           {...field}
           className="shad-textArea"
-          disabled={props.diabled}
+          disabled={diabled}
         >
         </Textarea>
+      );
+    case FormFieldType.CHECKBOX:
+      return (
+        <div className="flex items-center gap-4">
+          <Checkbox
+            id={name}
+            checked={field.value}
+            onCheckedChange={field.onChange}
+          />
+          <label htmlFor={name} className="checkbox-label">
+            {label}
+          </label>
+        </div>
       );
     case FormFieldType.SKELETON:
       return (
