@@ -1,9 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 // Components imports
-import RegisterForm from "@/components/RegisterForm";
+import RegisterForm from "@/components/forms/RegisterForm";
 
 // server actions
 import { getUser } from "@/lib/actions/patient.actions";

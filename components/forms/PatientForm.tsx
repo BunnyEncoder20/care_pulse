@@ -12,14 +12,14 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 
 // component imports
-import CustomFormField from "./CustomFormField";
-import SubmitButton from "./SubmitButton";
+import CustomFormField from "../CustomFormField";
+import SubmitButton from "../SubmitButton";
 
 // Form Schema
 import { UserFormValidation } from "@/lib/validation";
 
 // custom types
-import { FormFieldType } from "./CustomFormField";
+import { FormFieldType } from "../CustomFormField";
 
 // server actions
 import { createUser } from "@/lib/actions/patient.actions";

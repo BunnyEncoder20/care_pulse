@@ -2,7 +2,16 @@
 
 // appwrite imports
 import { ID, InputFile, Query } from "node-appwrite";
-import { users } from "../appwrite.config";
+import {
+  APPWRITE_DATABASE_ID,
+  APPWRITE_PATIENT_COLLECTION_ID,
+  BUCKET_ID,
+  ENDPOINT,
+  PROJECT_ID,
+  databases,
+  storage,
+  users,
+} from "../appwrite.config";
 
 // utils imports
 import { parseStringify } from "../utils";
@@ -15,6 +24,7 @@ const handleError = (message: string, error: unknown) => {
 
 /* ----------------- Server Actions ------------------ */
 export const createUser = async ({ name, email, phone }: CreateUserParams) => {
+  console.log("Creating user...");
   try {
     const newUser = await users.create(
       ID.unique(),
@@ -23,24 +33,71 @@ export const createUser = async ({ name, email, phone }: CreateUserParams) => {
       undefined,
       name
     );
-    console.log("New user created successfully");
+    console.log("New user created successfully ✅");
     console.log({ newUser });
     return parseStringify(newUser);
   } catch (error: any) {
     if (error && error?.code === 409) {
-      console.log("User already exists");
+      console.log("User already exists...");
       const documents = await users.list([Query.equal("email", [email])]);
+
+      console.log("User data fetched successfully ✅");
       console.log(documents?.users);
       return parseStringify(documents?.users[0]);
     }
+
+    handleError("There was a Error in createUser ❌\n", error);
   }
 };
 
 export const getUser = async (userId: string) => {
   try {
+    console.log("Getting user id:", userId);
     const user = await users.get(userId);
+    console.log("User found");
     return parseStringify(user);
   } catch (error) {
-    handleError("There was a Error in getUser: ", error);
+    handleError("There was a Error in getUser ❌\n", error);
+  }
+};
+
+export const registerPatient = async ({
+  identificationDocument,
+  ...patient
+}: RegisterUserParams) => {
+  console.log("Registering Patient...");
+  try {
+    // upload the file to bucket
+    let file;
+    if (identificationDocument) {
+      console.log("Uploading identification file to bucket...");
+      const inputFile =
+        identificationDocument &&
+        InputFile.fromBlob(
+          identificationDocument?.get("blobFile") as Blob,
+          identificationDocument?.get("fileName") as string
+        );
+
+      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+      console.log("File uploaded successfully ✅", file);
+    }
+
+    // create the patient document to database
+    console.log("Entering Patient data into DB...");
+    const newPatient = await databases.createDocument(
+      APPWRITE_DATABASE_ID!,
+      APPWRITE_PATIENT_COLLECTION_ID!,
+      ID.unique(),
+      {
+        identificationDocumentId: file?.$id,
+        identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
+        ...patient,
+      }
+    );
+
+    console.log("Patient registered successfully ✅");
+    return parseStringify(newPatient);
+  } catch (error) {
+    handleError("There was a Error in registerPatient ❌\n", error);
   }
 };

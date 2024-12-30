@@ -32,7 +32,7 @@ export enum FormFieldType {
 import { E164Number } from "libphonenumber-js/core";
 import { Checkbox } from "./ui/checkbox";
 
-// Input Renderer Function
+// Form Field Renderer Function
 const RenderField = ({
   field,
   props,
@@ -45,7 +45,6 @@ const RenderField = ({
     iconSrc,
     iconAlt,
     placeholder,
-    value,
     showTimeSelect,
     dateFormat,
     renderSkeleton,
@@ -59,23 +58,19 @@ const RenderField = ({
     case FormFieldType.INPUT:
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">
-          {/* input field icon */}
           {iconSrc && (
             <Image
               src={iconSrc}
-              alt={iconAlt || "icon"}
               height={24}
               width={24}
+              alt={iconAlt || "icon"}
               className="ml-2"
             />
           )}
-
-          {/* Input field */}
           <FormControl>
             <Input
-              placeholder={placeholder}
+              placeholder={props.placeholder}
               {...field}
-              value={value ?? ""}
               className="shad-input border-0"
             />
           </FormControl>
@@ -89,7 +84,7 @@ const RenderField = ({
             placeholder={placeholder}
             international
             withCountryCallingCode
-            value={value ?? field.value as E164Number | undefined}
+            value={field.value as E164Number | undefined}
             onChange={field.onChange}
             className="input-phone"
           >

@@ -5,7 +5,7 @@ declare type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-declare type Gender = "Male" | "Female" | "Other";
+declare type Gender = "male" | "female" | "other";
 declare type Status = "pending" | "scheduled" | "cancelled";
 
 declare interface CreateUserParams {
@@ -73,8 +73,8 @@ declare interface CustomFormFieldPropsType {
 
 declare interface ButtonProps {
   isLoading: boolean;
-  children: React.ReactNode;
   classnames?: string;
+  children: React.ReactNode;
 }
 
 declare type FileUploaderProps = {
