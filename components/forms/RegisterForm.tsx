@@ -237,7 +237,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           <CustomFormField
             fieldType={FormFieldType.SELECT}
             control={form.control}
-            name="primaryPhysician"
+            name="primaryPhyisician"
             label="Primary care physician"
             placeholder="Select a physician"
           >
