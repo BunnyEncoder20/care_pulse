@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 // component imports
 import AppointmentForm from "@/components/forms/AppointmentForm";
@@ -12,7 +11,7 @@ import { getPatient } from "@/lib/actions/patient.actions";
 const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
   // fetch patient
   const patient = await getPatient(userId);
-
+  console.log("Fetched patient: ", patient.$id);
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container my-auto">
@@ -34,7 +33,7 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
           />
 
           {/* copywright */}
-          <p className="coprright py-12">
+          <p className="coprright mt-10">
             &copy; 2024 Care Pulse
           </p>
         </div>

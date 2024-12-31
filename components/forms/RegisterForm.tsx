@@ -46,6 +46,7 @@ const RegisterForm = ({ user }: { user: User }) => {
       name: user.name,
       email: user.email,
       phone: user.phone,
+      birthDate: new Date("2000-01-01"),
     },
   });
 
@@ -237,7 +238,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           <CustomFormField
             fieldType={FormFieldType.SELECT}
             control={form.control}
-            name="primaryPhyisician"
+            name="primaryPhysician"
             label="Primary care physician"
             placeholder="Select a physician"
           >

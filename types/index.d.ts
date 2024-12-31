@@ -63,7 +63,7 @@ declare interface CustomFormFieldPropsType {
   placeholder?: string;
   iconSrc?: string;
   iconAlt?: string;
-  diabled?: boolean;
+  disabled?: boolean;
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
