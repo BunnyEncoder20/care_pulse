@@ -76,6 +76,8 @@ const RenderField = ({
           </FormControl>
         </div>
       );
+      break;
+
     case FormFieldType.PHONE_INPUT:
       return (
         <FormControl>
@@ -91,6 +93,8 @@ const RenderField = ({
           </PhoneInput>
         </FormControl>
       );
+      break;
+
     case FormFieldType.DATE_PICKER:
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">
@@ -113,6 +117,8 @@ const RenderField = ({
           </FormControl>
         </div>
       );
+      break;
+
     case FormFieldType.SELECT:
       return (
         <FormControl>
@@ -128,6 +134,8 @@ const RenderField = ({
           </Select>
         </FormControl>
       );
+      break;
+
     case FormFieldType.TEXTAREA:
       return (
         <Textarea
@@ -138,6 +146,8 @@ const RenderField = ({
         >
         </Textarea>
       );
+      break;
+
     case FormFieldType.CHECKBOX:
       return (
         <div className="flex items-center gap-4">
@@ -151,10 +161,14 @@ const RenderField = ({
           </label>
         </div>
       );
+      break;
+
     case FormFieldType.SKELETON:
       return (
         renderSkeleton ? renderSkeleton(field) : null
       );
+      break;
+
     default:
       break;
   }

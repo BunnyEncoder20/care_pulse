@@ -101,3 +101,18 @@ export const registerPatient = async ({
     handleError("There was a Error in registerPatient ❌\n", error);
   }
 };
+
+export const getPatient = async (userId: string) => {
+  try {
+    console.log("Getting patient id:", userId, "...");
+    const patient = await databases.listDocuments(
+      APPWRITE_DATABASE_ID!,
+      APPWRITE_PATIENT_COLLECTION_ID!,
+      [Query.equal("userId", userId)]
+    );
+    console.log("Patient found ✅");
+    return parseStringify(patient.documents[0]);
+  } catch (error) {
+    handleError("There was a Error in getUser ❌\n", error);
+  }
+};
