@@ -120,7 +120,7 @@ export const updateAppointment = async ({
 
     // refresh the page to show the changes
     revalidatePath("/admin");
-    console.log("Appointment uopdated successfully ✅");
+    console.log("Appointment updated successfully ✅");
     return parseStringify(updatedAppointment);
   } catch (error) {
     handleError("There was a Error in updateAppointment", error);
