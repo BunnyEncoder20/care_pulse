@@ -10,6 +10,9 @@ import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
+// sentry
+// import * as Sentry from "@sentry/nextjs";
+
 // curerent page 📄
 const SuccessPage = async ({
   params: { userId },
@@ -21,6 +24,9 @@ const SuccessPage = async ({
   const doctor = Doctors.find((doc) =>
     doc.name === appointment?.primaryPhysician
   );
+
+  // Sentry metrics
+  // Sentry.metrics.set("user_views_new-appointment", user.name);
 
   return (
     <div className="flex h-screen max-h-screen px-[5%]">

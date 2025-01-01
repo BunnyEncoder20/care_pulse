@@ -12,6 +12,7 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
   // fetch patient
   const patient = await getPatient(userId);
   console.log("Fetched patient: ", patient.$id);
+
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container my-auto">
@@ -26,6 +27,7 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
           />
 
           {/* appointment form */}
+          {/* TODO: check this isOpen error */}
           <AppointmentForm
             type="create"
             userId={userId}

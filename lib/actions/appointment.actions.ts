@@ -1,19 +1,21 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 // appwrite
 import { ID, Query } from "node-appwrite";
 import {
   APPWRITE_APPOINTMENT_COLLECTION_ID,
   APPWRITE_DATABASE_ID,
   databases,
+  messaging,
 } from "../appwrite.config";
 
 // utils
-import { parseStringify } from "../utils";
+import { formatDateTime, parseStringify } from "../utils";
 
 // custom types
 import { Appointment } from "@/types/appwrite.types";
-import { revalidatePath } from "next/cache";
 
 /* ----------------- Helper Functions ------------------ */
 const handleError = (message: string, error: unknown) => {
@@ -117,6 +119,15 @@ export const updateAppointment = async ({
     if (!updatedAppointment) throw new Error("Failed to update appointment");
 
     // TODO: Send SMS notification
+    const smsMessage = `
+    Hi it's CarePulse. 
+    ${
+      type === "schedule"
+        ? `Your appointment with ${appointment.primaryPhysician} has been scheduled for ${formatDateTime(appointment.schedule).dateTime}.`
+        : `We regret to inform you that your appointment has been cancelled for the following reason: ${appointment.cancellationReason}`
+    };`;
+
+    await sendSMSNotificaiton(userId, smsMessage);
 
     // refresh the page to show the changes
     revalidatePath("/admin");
@@ -124,5 +135,22 @@ export const updateAppointment = async ({
     return parseStringify(updatedAppointment);
   } catch (error) {
     handleError("There was a Error in updateAppointment", error);
+  }
+};
+
+export const sendSMSNotificaiton = async (userId: string, content: string) => {
+  console.log("Sending SMS notification...");
+  try {
+    const message = await messaging.createSms(
+      ID.unique(),
+      content,
+      [],
+      [userId]
+    );
+
+    console.log("SMS notification send successfully ✅");
+    return parseStringify(message);
+  } catch (error) {
+    handleError("There was a Error in sendSMSNotificaiton", error);
   }
 };

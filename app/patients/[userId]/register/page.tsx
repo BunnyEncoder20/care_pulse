@@ -11,6 +11,7 @@ import { getUser } from "@/lib/actions/patient.actions";
 const Register = async ({ params: { userId } }: SearchParamProps) => {
   // fetch the user
   const user = await getUser(userId);
+
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
