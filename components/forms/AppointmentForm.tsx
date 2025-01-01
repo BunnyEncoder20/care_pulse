@@ -58,7 +58,9 @@ const AppointmentForm = ({
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      primaryPhysician: appointment && appointment.primaryPhysician,
+      primaryPhysician: appointment
+        ? appointment.primaryPhysician
+        : "John Green",
       schedule: appointment
         ? new Date(appointment.schedule)
         : new Date(Date.now()),
@@ -108,25 +110,29 @@ const AppointmentForm = ({
           );
         }
       } else {
-        console.log("Updating appointment...");
-        const appointmentToUpdate = {
-          userId,
-          appointmentId: appointment?.$id,
-          appointment: {
-            primaryPhysician: values.primaryPhysician,
-            schedule: new Date(values.schedule),
-            status: status as Status,
-            cancellationReason: values.cancellationReason,
-          },
-          type,
-        };
+        if (appointment?.$id) {
+          console.log("Updating appointment id: ", appointment?.$id);
+          const appointmentToUpdate = {
+            userId,
+            appointmentId: appointment?.$id,
+            appointment: {
+              primaryPhysician: values.primaryPhysician,
+              schedule: new Date(values.schedule),
+              status: status as Status,
+              cancellationReason: values.cancellationReason,
+            },
+            type,
+          };
 
-        const updatedAppointment = await updateAppointment(appointmentToUpdate);
+          const updatedAppointment = await updateAppointment(
+            appointmentToUpdate,
+          );
 
-        if (updatedAppointment) {
-          console.log("Updated appointment successfully ✅");
-          setOpen(false);
-          form.reset();
+          if (updatedAppointment) {
+            console.log("Updated appointment successfully ✅");
+            setOpen(false);
+            form.reset();
+          }
         }
       }
     } catch (error) {

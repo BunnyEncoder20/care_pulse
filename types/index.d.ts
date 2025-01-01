@@ -88,3 +88,8 @@ declare interface StatCardProps {
   label: string;
   icon: string;
 }
+
+declare interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}

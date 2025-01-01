@@ -80,7 +80,7 @@ const SuccessPage = async ({
 
         {/* button */}
         <Button variant="outline" className="shad-primary-btn">
-          <Link href={`/patients/${userId}/new-appointments`}>
+          <Link href={`/patients/${userId}/new-appointment`}>
             New Appointment
           </Link>
         </Button>
