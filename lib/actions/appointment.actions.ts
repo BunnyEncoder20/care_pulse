@@ -62,7 +62,7 @@ export const getRecentAppointmentList = async () => {
     const appointments = await databases.listDocuments(
       APPWRITE_DATABASE_ID!,
       APPWRITE_APPOINTMENT_COLLECTION_ID!,
-      [Query.orderDesc("$cretedAt")]
+      [Query.orderDesc("$createdAt")]
     );
     console.log("fetched appointments ✅\nCounting appointments...");
     const initialCounts = {

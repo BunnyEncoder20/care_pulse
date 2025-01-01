@@ -5,8 +5,14 @@ import Link from "next/link";
 // components
 import StatCard from "@/components/StatCard";
 
+// server actions
+import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
+
 // current component ⚛️
-const Admin = () => {
+const Admin = async () => {
+  // fetch appointment list
+  const appointmentData = await getRecentAppointmentList();
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <header className="admin-header">
@@ -34,20 +40,20 @@ const Admin = () => {
         <section className="admin-stat">
           <StatCard
             type="appointments"
-            count={5}
+            count={appointmentData.scheduledCount}
             label="Scheduled appointments"
             icon="/assets/icons/appointments.svg"
           />
 
           <StatCard
             type="pending"
-            count={10}
+            count={appointmentData.pendingCount}
             label="Pending appointments"
             icon="/assets/icons/pending.svg"
           />
           <StatCard
             type="cancelled"
-            count={2}
+            count={appointmentData.cancelledCount}
             label="Cancelled appointments"
             icon="/assets/icons/cancelled.svg"
           />
