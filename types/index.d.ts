@@ -81,3 +81,10 @@ declare type FileUploaderProps = {
   files: File[] | undefined;
   onChange: (files: File[]) => void;
 };
+
+declare interface StatCardProps {
+  type: "appointments" | "pending" | "cancelled";
+  count: number;
+  label: string;
+  icon: string;
+}
