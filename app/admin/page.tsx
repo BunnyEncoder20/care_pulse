@@ -5,7 +5,7 @@ import Link from "next/link";
 // components
 import StatCard from "@/components/StatCard";
 import { DataTable } from "@/components/table/DataTable";
-import { columns, Payment } from "@/components/table/columns";
+import { columns } from "@/components/table/columns";
 
 // server actions
 import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
