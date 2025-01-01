@@ -4,9 +4,13 @@ import Link from "next/link";
 
 // components
 import StatCard from "@/components/StatCard";
+import { DataTable } from "@/components/table/DataTable";
+import { columns, Payment } from "@/components/table/columns";
 
 // server actions
 import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
+
+// fake data func
 
 // current component ⚛️
 const Admin = async () => {
@@ -58,6 +62,12 @@ const Admin = async () => {
             icon="/assets/icons/cancelled.svg"
           />
         </section>
+
+        {/* data table */}
+        <DataTable
+          columns={columns}
+          data={appointmentData.documents}
+        />
       </main>
     </div>
   );
