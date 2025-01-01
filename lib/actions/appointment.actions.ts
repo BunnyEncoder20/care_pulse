@@ -1,12 +1,18 @@
 "use server";
 
-import { ID } from "node-appwrite";
+// appwrite
+import { ID, Query } from "node-appwrite";
 import {
   APPWRITE_APPOINTMENT_COLLECTION_ID,
   APPWRITE_DATABASE_ID,
   databases,
 } from "../appwrite.config";
+
+// utils
 import { parseStringify } from "../utils";
+
+// custom types
+import { Appointment } from "@/types/appwrite.types";
 
 /* ----------------- Helper Functions ------------------ */
 const handleError = (message: string, error: unknown) => {
@@ -47,5 +53,47 @@ export const getAppointment = async (appointmentId: string) => {
     return parseStringify(appointment);
   } catch (error) {
     handleError("There was a Error in getAppointment", error);
+  }
+};
+
+export const getRecentAppointmentList = async () => {
+  try {
+    console.log("Fetching recent appointments...");
+    const appointments = await databases.listDocuments(
+      APPWRITE_DATABASE_ID!,
+      APPWRITE_APPOINTMENT_COLLECTION_ID!,
+      [Query.orderDesc("$cretedAt")]
+    );
+    console.log("fetched appointments ✅\nCounting appointments...");
+    const initialCounts = {
+      scheduledCount: 0,
+      pendingCount: 0,
+      cancelledCount: 0,
+    };
+
+    const counts = (appointments.documents as Appointment[]).reduce(
+      (acc, appointment) => {
+        if (appointment.status === "scheduled") {
+          acc.scheduledCount++;
+        } else if (appointment.status === "pending") {
+          acc.pendingCount++;
+        } else if (appointment.status === "cancelled") {
+          acc.cancelledCount++;
+        }
+        return acc;
+      },
+      initialCounts
+    );
+
+    const data = {
+      totalCount: appointments.total,
+      ...counts,
+      documents: appointments.documents,
+    };
+
+    console.log("Recent appointments object generated ✅");
+    return parseStringify(data);
+  } catch (error) {
+    handleError("There was a Error in getRecentAppointmentList", error);
   }
 };

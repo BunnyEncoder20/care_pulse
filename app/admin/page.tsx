@@ -30,7 +30,7 @@ const Admin = () => {
           <p className="text-dark-700">Start managing new appoitments</p>
         </section>
 
-        {/*  */}
+        {/* stat cards */}
         <section className="admin-stat">
           <StatCard
             type="appointments"
