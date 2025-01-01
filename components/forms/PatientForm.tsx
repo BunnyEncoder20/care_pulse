@@ -52,8 +52,10 @@ const PatientForm = () => {
       const userData = { name, email, phone };
 
       const user = await createUser(userData);
-      if (user) {
+      if (!user.registered) {
         router.push(`/patients/${user.$id}/register`);
+      } else if (user.registered) {
+        router.push(`/patients/${user.$id}/new-appointment`);
       } else {
         throw new Error(
           "Something went wrong while creating user. Null user returned.",

@@ -43,7 +43,11 @@ export const createUser = async ({ name, email, phone }: CreateUserParams) => {
 
       console.log("User data fetched successfully ✅");
       console.log(documents?.users);
-      return parseStringify(documents?.users[0]);
+      const userData = {
+        ...documents?.users[0],
+        registered: true,
+      };
+      return parseStringify(userData);
     }
 
     handleError("There was a Error in createUser ❌\n", error);
