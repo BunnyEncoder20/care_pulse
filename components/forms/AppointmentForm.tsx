@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -45,7 +45,7 @@ const AppointmentForm = ({
   patientId: string;
   type: "create" | "cancel" | "schedule";
   appointment?: Appointment;
-  setOpen: (open: boolean) => void;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
   // states and hooks
   const [isLoading, setIsLoading] = useState(false);
@@ -130,7 +130,7 @@ const AppointmentForm = ({
 
           if (updatedAppointment) {
             console.log("Updated appointment successfully ✅");
-            setOpen(false);
+            if (setOpen) setOpen(false);
             form.reset();
           }
         }

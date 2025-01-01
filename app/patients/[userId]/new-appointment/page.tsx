@@ -27,7 +27,6 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
           />
 
           {/* appointment form */}
-          {/* TODO: check this isOpen error */}
           <AppointmentForm
             type="create"
             userId={userId}

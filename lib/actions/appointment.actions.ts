@@ -118,13 +118,12 @@ export const updateAppointment = async ({
 
     if (!updatedAppointment) throw new Error("Failed to update appointment");
 
-    // TODO: Send SMS notification
     const smsMessage = `
     Hi it's CarePulse. 
     ${
       type === "schedule"
         ? `Your appointment with ${appointment.primaryPhysician} has been scheduled for ${formatDateTime(appointment.schedule).dateTime}.`
-        : `We regret to inform you that your appointment has been cancelled for the following reason: ${appointment.cancellationReason}`
+        : `We regret to inform you that your appointment has been cancelled for the following reason: ${appointment.cancellationReason}.`
     };`;
 
     await sendSMSNotificaiton(userId, smsMessage);
