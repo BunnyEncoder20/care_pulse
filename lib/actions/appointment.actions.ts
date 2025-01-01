@@ -13,6 +13,7 @@ import { parseStringify } from "../utils";
 
 // custom types
 import { Appointment } from "@/types/appwrite.types";
+import { revalidatePath } from "next/cache";
 
 /* ----------------- Helper Functions ------------------ */
 const handleError = (message: string, error: unknown) => {
@@ -95,5 +96,33 @@ export const getRecentAppointmentList = async () => {
     return parseStringify(data);
   } catch (error) {
     handleError("There was a Error in getRecentAppointmentList", error);
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {
+  console.log("Updating appointment with id:", appointmentId, "...");
+  try {
+    const updatedAppointment = await databases.updateDocument(
+      APPWRITE_DATABASE_ID!,
+      APPWRITE_APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      appointment
+    );
+
+    if (!updatedAppointment) throw new Error("Failed to update appointment");
+
+    // TODO: Send SMS notification
+
+    // refresh the page to show the changes
+    revalidatePath("/admin");
+    console.log("Appointment uopdated successfully ✅");
+    return parseStringify(updatedAppointment);
+  } catch (error) {
+    handleError("There was a Error in updateAppointment", error);
   }
 };

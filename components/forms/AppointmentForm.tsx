@@ -24,20 +24,28 @@ import { getAppointmentSchema } from "@/lib/validation";
 import { FormFieldType } from "@/components/CustomFormField";
 
 // server actions
-import { createAppointment } from "@/lib/actions/appointment.actions";
+import {
+  createAppointment,
+  updateAppointment,
+} from "@/lib/actions/appointment.actions";
 
 // constants
 import { Doctors } from "@/constants";
+import { Appointment } from "@/types/appwrite.types";
 
 // Current Component ⚛️
 const AppointmentForm = ({
   userId,
   patientId,
   type = "create",
+  appointment,
+  setOpen,
 }: {
   userId: string;
   patientId: string;
   type: "create" | "cancel" | "schedule";
+  appointment?: Appointment;
+  setOpen: (open: boolean) => void;
 }) => {
   // states and hooks
   const [isLoading, setIsLoading] = useState(false);
@@ -50,11 +58,13 @@ const AppointmentForm = ({
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      primaryPhysician: "",
-      schedule: new Date(Date.now()),
-      reason: "",
-      note: "",
-      cancellationReason: "",
+      primaryPhysician: appointment && appointment.primaryPhysician,
+      schedule: appointment
+        ? new Date(appointment.schedule)
+        : new Date(Date.now()),
+      reason: appointment ? appointment.reason : "",
+      note: appointment ? appointment.note : "",
+      cancellationReason: appointment?.cancellationReason || "",
     },
   });
 
@@ -79,6 +89,7 @@ const AppointmentForm = ({
 
     try {
       if (type === "create" && patientId) {
+        console.log("Creatign new appointment...");
         const appointmentData = {
           userId,
           patient: patientId,
@@ -90,10 +101,32 @@ const AppointmentForm = ({
         };
         const newAppointment = await createAppointment(appointmentData);
         if (newAppointment) {
+          console.log("New appointment created successfully ✅");
           form.reset();
           router.push(
             `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`,
           );
+        }
+      } else {
+        console.log("Updating appointment...");
+        const appointmentToUpdate = {
+          userId,
+          appointmentId: appointment?.$id,
+          appointment: {
+            primaryPhysician: values.primaryPhysician,
+            schedule: new Date(values.schedule),
+            status: status as Status,
+            cancellationReason: values.cancellationReason,
+          },
+          type,
+        };
+
+        const updatedAppointment = await updateAppointment(appointmentToUpdate);
+
+        if (updatedAppointment) {
+          console.log("Updated appointment successfully ✅");
+          setOpen(false);
+          form.reset();
         }
       }
     } catch (error) {

@@ -22,7 +22,7 @@ const AppointmentModal = ({
   userId,
   appointment,
 }: {
-  type: "Schedule" | "Cancel";
+  type: "schedule" | "cancel";
   patientId: string;
   userId: string;
   appointment?: Appointment;
@@ -34,7 +34,7 @@ const AppointmentModal = ({
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className={`capitalize ${type === "Schedule" && "text-green-500"}`}
+          className={`capitalize ${type === "schedule" && "text-green-500"}`}
         >
           {type}
         </Button>
@@ -47,7 +47,13 @@ const AppointmentModal = ({
           </DialogDescription>
         </DialogHeader>
 
-        <AppointmentForm />
+        <AppointmentForm
+          userId={userId}
+          patientId={patientId}
+          type={type}
+          appointment={appointment}
+          setOpen={setOpen}
+        />
       </DialogContent>
     </Dialog>
   );
