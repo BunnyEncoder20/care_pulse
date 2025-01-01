@@ -4,12 +4,15 @@ import Link from "next/link";
 
 // component imports
 import PatientForm from "@/components/forms/PatientForm";
+import PasskeyModal from "@/components/PasskeyModal";
 
 // current Page 📄
-export default function Home() {
+export default function Home({ searchParams }: SearchParamProps) {
+  const isAdmin = searchParams?.admin === "true";
+
   return (
     <div className="flex h-screen max-h-screen">
-      {/* TODO: OTP verification / passkey modal */}
+      {isAdmin && <PasskeyModal />}
 
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
@@ -31,7 +34,7 @@ export default function Home() {
               &copy; 2024 Care Pulse
             </p>
             <Link href="/?admin=true" className="text-green-500 cursor-pointer">
-              Doctor Login
+              Admin
             </Link>
           </div>
         </div>

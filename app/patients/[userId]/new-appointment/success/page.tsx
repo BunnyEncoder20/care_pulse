@@ -59,7 +59,7 @@ const SuccessPage = async ({
           <p>Requested appointment details:</p>
           <div className="flex items-center gap-3">
             <Image
-              src={doctor?.image}
+              src={doctor?.image || "assets/icons/user.svg"}
               alt="doctor"
               height={100}
               width={100}
