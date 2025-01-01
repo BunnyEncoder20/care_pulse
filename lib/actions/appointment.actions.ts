@@ -34,3 +34,18 @@ export const createAppointment = async (
     handleError("There was a Error in createUser", error);
   }
 };
+
+export const getAppointment = async (appointmentId: string) => {
+  console.log("Getting appointment with id:", appointmentId, "...");
+  try {
+    const appointment = await databases.getDocument(
+      APPWRITE_DATABASE_ID!,
+      APPWRITE_APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+    console.log("Appointment found ✅");
+    return parseStringify(appointment);
+  } catch (error) {
+    handleError("There was a Error in getAppointment", error);
+  }
+};
