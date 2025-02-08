@@ -45,6 +45,9 @@ and many more, including code architecture and reusability
 
 ![](./public/project_ss/1.png)
 ![](./public/project_ss/2.png)
+![](./public/project_ss/10.png)
+![](./public/project_ss/11.png)
+![](./public/project_ss/12.png)
 ![](./public/project_ss/3.png)
 ![](./public/project_ss/4.png)
 ![](./public/project_ss/5.png)
